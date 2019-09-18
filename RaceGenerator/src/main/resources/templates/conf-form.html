@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Race Generator</title>
+</head>
+<body>
+
+	<div class="container">
+	
+	<h3>Race Generator</h3>
+	<hr>
+	
+	<div>
+	
+		<form action="#" th:action="@{/showResult}" th:object="${configuration}"
+			method="POST">
+			<input type="text" th:field="*{stints}">
+			
+			<button type="submit">Generate</button>
+		</form>
+	
+	</div>
+	
+	</div>
+</body>
+</html>

@@ -11,19 +11,24 @@ import com.kart.RaceGenerator.service.RaceService;
 public class RaceController {
 
 	private RaceService raceService;
-	
+
 	public RaceController(RaceService raceService) {
 		this.raceService = raceService;
 	}
-	
-	
+
 	@GetMapping("/")
-	public String start(Model model) {
-		Configuration configuration = raceService.getConfiguration();
-		
-		model.addAttribute("configuration", configuration);
+	public String start() {
 
 		return "index";
+	}
+
+	@GetMapping("/showForm")
+	public String showForm(Model model) {
+		Configuration configuration = new Configuration();
+
+		model.addAttribute("configuration", configuration);
+		
+		return "conf-form";
 	}
 
 }

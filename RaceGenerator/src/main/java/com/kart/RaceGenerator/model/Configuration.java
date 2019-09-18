@@ -5,7 +5,6 @@ import java.util.TreeSet;
 
 import org.springframework.stereotype.Component;
 
-@Component
 public class Configuration {
 
 	private Set<String> karts;
