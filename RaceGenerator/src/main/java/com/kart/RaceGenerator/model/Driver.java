@@ -1,8 +1,5 @@
 package com.kart.RaceGenerator.model;
 
-import org.springframework.stereotype.Component;
-
-@Component
 public class Driver {
 
 	private String name;
