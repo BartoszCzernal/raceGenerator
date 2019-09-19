@@ -15,8 +15,38 @@
 	
 	<div>
 	
-		<form action="#" th:action="@{/showResult}" th:object="${configuration}"
+		<form action="#" th:action="@{/form}" th:object="${configuration}"
 			method="POST">
+		<table border="1">
+			<tr>
+				<th>Nazwy kartów</th>
+			</tr>
+			<tr th:each="kart, kartStat : *{karts}">
+				<td>
+					<input type="text" th:field="*{karts[__${kartStat.index}__]}"
+						placeholder="kart">
+				</td>
+			<tr>
+			<tr>
+				<td> <button type="submit" name="addKart">Add kart</button>
+			</tr>
+		</table>
+			<th:block th:each="group, groupStat : *{groups}">
+			<hr>
+				<table border="1">
+					<tr>
+						<th>
+							<input type="text" th:field="*{groups[__${groupStat.index}__].name}">
+						</th>
+					</tr>
+					<tr th:each="driver, driverStat : *{groups[__${groupStat.index}__].drivers}">
+						<td>
+							<input type="text" th:field="*{groups[__${groupStat.index}__].drivers[__${driverStat.index}__].name}">
+						</td>
+					</tr>
+				</table>
+			</th:block>	
+			<hr>
 			<input type="text" th:field="*{stints}">
 			
 			<button type="submit">Generate</button>

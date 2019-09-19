@@ -7,6 +7,10 @@ public class Driver {
 	
 	public Driver() {}
 	
+	public Driver(String name) {
+		this.name = name;
+	}
+	
 	public Driver(String name, Group group) {
 		this.name = name;
 		this.group = group;

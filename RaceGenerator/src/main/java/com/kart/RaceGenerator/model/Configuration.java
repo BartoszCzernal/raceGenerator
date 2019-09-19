@@ -1,37 +1,35 @@
 package com.kart.RaceGenerator.model;
 
-import java.util.Set;
-import java.util.TreeSet;
-
-import org.springframework.stereotype.Component;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Configuration {
 
-	private Set<String> karts;
-	private Set<Group> groups;
+	private List<String> karts;
+	private List<Group> groups;
 	private int stints;
 	
 	public Configuration() {}
 
-	public Configuration(Set<String> karts, Set<Group> groups, int stints) {
+	public Configuration(List<String> karts, List<Group> groups, int stints) {
 		this.karts = karts;
 		this.groups = groups;
 		this.stints = stints;
 	}
 
-	public Set<String> getKarts() {
+	public List<String> getKarts() {
 		return karts;
 	}
 
-	public void setKarts(Set<String> karts) {
+	public void setKarts(List<String> karts) {
 		this.karts = karts;
 	}
-
-	public Set<Group> getGroups() {
+	
+	public List<Group> getGroups() {
 		return groups;
 	}
 
-	public void setGroups(Set<Group> groups) {
+	public void setGroups(List<Group> groups) {
 		this.groups = groups;
 	}
 
@@ -44,12 +42,15 @@ public class Configuration {
 	}
 	
 	public boolean addKart(String kartName) {
+		if (karts == null) {
+			karts = new ArrayList<>();
+		}
 		return karts.add(kartName);
 	}
 
 	public boolean addGroup(Group group) {
 		if (groups == null) {
-			groups = new TreeSet<>();
+			groups = new ArrayList<>();
 		}
 		return groups.add(group);
 	}
