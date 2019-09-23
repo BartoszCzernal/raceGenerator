@@ -1,8 +1,5 @@
 package com.kart.RaceGenerator.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 
 import com.kart.RaceGenerator.model.Configuration;
@@ -14,17 +11,28 @@ public class RaceServiceImpl implements RaceService {
 
 	@Override
 	public Configuration prepareForForm(Configuration configuration) {
-		List<Group> group = new ArrayList<>();
-		for(int i = 1; i <= 6; i++) {
-			configuration.addKart("" + i);
-			group.add(new Group("grupa" + i));
-			group.get(i-1).addDriver(new Driver("driver1"));
-			group.get(i-1).addDriver(new Driver("driver2"));
-			configuration.addGroup(group.get(i-1));
+		Group group = new Group("Grupa A");
+		for (int i = 1; i <= 6; i++) {
+			configuration.addKart(i + "");
+			group.addDriver(new Driver());
 		}
-		
+		configuration.addGroup(group);
 		return configuration;
 	}
+
+	@Override
+	public Configuration addNextGroup(Configuration configuration) {
+		char groupNameChar = 'A';
+		groupNameChar = (char) (groupNameChar + configuration.getGroups().size());
+		String groupName = "Grupa " + groupNameChar;
+		Group group = new Group(groupName);
+		for (int i = 1; i <= 6; i++) {
+			group.addDriver(new Driver());
+		}
+		configuration.addGroup(group);
+		return configuration;
+	}
+	
 	
 	
 }
