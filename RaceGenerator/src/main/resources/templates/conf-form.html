@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Race Generator</title>
+</head>
+<body>
+
+	<div class="container">
+
+		<h3>Race Generator</h3>
+		<hr>
+
+		<div>
+			<form action="#" th:action="@{/form}" th:object="${configuration}"
+				method="POST">
+				<table border="1">
+					<tr>
+						<th>Nazwy kartów</th>
+					</tr>
+					<tr th:each="kart, kartStat : *{karts}">
+						<td><input type="text"
+							th:field="*{karts[__${kartStat.index}__]}" placeholder="kart">
+						</td>
+					<tr>
+					<tr>
+						<td>
+							<button type="submit" name="addKart">Add kart</button>
+						</td>
+					</tr>
+				</table>
+				<th:block th:each="group, groupStat : *{groups}">
+					<table border="1">
+						<tr>
+							<th><input type="text"
+								th:field="*{groups[__${groupStat.index}__].name}" readonly="readonly"></th>
+						</tr>
+						<tr
+							th:each="driver, driverStat : *{groups[__${groupStat.index}__].drivers}">
+							<td><input type="text"
+								th:field="*{groups[__${groupStat.index}__].drivers[__${driverStat.index}__].name}">
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<button type="submit" name="addDriver" th:value="${groupStat.index}">Add Driver</button>
+							</td>
+						</tr>
+					</table>
+				</th:block>
+				<button type="submit" name="addGroup">Add Group</button>
+				<hr>
+
+				<input type="text" th:field="*{stints}">
+
+				<button type="submit">Generate</button>
+			</form>
+
+		</div>
+
+	</div>
+</body>
+</html>

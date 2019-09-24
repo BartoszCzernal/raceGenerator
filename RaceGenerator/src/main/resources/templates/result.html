@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Race Generator</title>
+</head>
+<body>
+	<div class="container">
+
+		<h3>Race Generator</h3>
+		<hr>
+		<table border="1" th:each="group, groupStat : ${configuration.groups}">
+			<tr>
+				<th th:text="${group.name}"></th>
+				<th th:each="i: ${#numbers.sequence(1, configuration.stints)}" 
+					th:text="${i}">
+				</th>
+			</tr>
+			<tr th:each="driver, driverStat : ${group.drivers}">
+				<td th:text="${driver.name}"></td>
+				<td th:each="kart, kartStat : ${driver.kartsUsed}"
+					th:text="${kart}"></td>
+			</tr>
+		</table>
+
+
+	</div>
+
+
+</body>
+</html>
