@@ -1,5 +1,7 @@
 package com.kart.RaceGenerator.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,15 +12,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kart.RaceGenerator.model.Configuration;
 import com.kart.RaceGenerator.model.Driver;
+import com.kart.RaceGenerator.model.Group;
 import com.kart.RaceGenerator.service.RaceService;
 
 @Controller
 public class RaceController {
 
 	private RaceService raceService;
+	private Configuration configuration;
 	
 	public RaceController(RaceService raceService) {
 		this.raceService = raceService;
+		this.configuration = Configuration.getInstance();
 	}
 
 	@GetMapping("/")
@@ -29,8 +34,9 @@ public class RaceController {
 
 	@GetMapping("/form")
 	public String showForm(Model model) {
-		Configuration configuration = new Configuration();
-		configuration = raceService.prepareForForm(configuration);
+		if (configuration.getGroups() == null) {
+			configuration = raceService.prepareForForm(configuration);
+		}
 		model.addAttribute("configuration", configuration);
 		
 		return "conf-form";
@@ -38,7 +44,11 @@ public class RaceController {
 	
 	@RequestMapping(value="/form", params= {"addKart"})
 	public String addKart(@ModelAttribute Configuration configuration) {
-		configuration.addKart(configuration.getKarts().size() + 1 + "");
+		if (configuration.getKarts() != null) {
+			configuration.addKart(configuration.getKarts().size() + 1 + "");
+		} else {
+			configuration.addKart("1");
+		}
 		return "conf-form";
 	}
 	
@@ -51,16 +61,32 @@ public class RaceController {
 	@RequestMapping(value="/form", params= {"addDriver"})
 	public String addDriver(@ModelAttribute Configuration configuration,
 							@RequestParam(value="addDriver") int id) {
-		configuration.getGroups().get(id).addDriver(new Driver());
+		if (configuration.getGroups() != null) {
+			configuration.getGroups().get(id).addDriver(new Driver());
+		}
 		return "conf-form";
 	}
 	
 	@PostMapping("/form")
 	public String save(@ModelAttribute Configuration configuration,
 						Model model) {
+		List<Group> groups = configuration.getGroups();
+		for (Group group : groups) {
+			group.pickKartsForDrivers();
+		}
 		System.out.println(configuration.getKarts());
-		System.out.println(configuration.getGroups().get(0).getDrivers());
-		System.out.println(configuration.getStints());
+		for (Group group : groups) {
+			List<Driver> drivers = group.getDrivers();
+			System.out.println(group.getName());
+			for (Driver driver : drivers) {
+				List<String> karts = driver.getKartsUsed();
+				System.out.print(driver.getName() + ": ");
+				for (String kart : karts) {
+					System.out.print(kart + ", ");
+				}
+				System.out.println();
+			}
+		}
 		model.addAttribute(configuration);
 		return "result";
 	}

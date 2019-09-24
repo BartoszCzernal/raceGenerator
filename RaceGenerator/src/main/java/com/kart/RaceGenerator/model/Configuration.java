@@ -3,18 +3,27 @@ package com.kart.RaceGenerator.model;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class Configuration {
-
-	private List<String> karts;
-	private List<Group> groups;
-	private int stints;
 	
-	public Configuration() {}
+	private static volatile Configuration configuration;
 
-	public Configuration(List<String> karts, List<Group> groups, int stints) {
-		this.karts = karts;
-		this.groups = groups;
-		this.stints = stints;
+	private static List<String> karts;
+	private static List<Group> groups;
+	private static int stints;
+	
+	private Configuration() {}
+
+	public static Configuration getInstance() {
+		if (configuration == null) {
+			synchronized (Configuration.class) {
+				if (configuration == null) {
+					configuration = new Configuration();
+				}
+			}
+		}
+		return configuration;
 	}
 
 	public List<String> getKarts() {
@@ -22,7 +31,7 @@ public class Configuration {
 	}
 
 	public void setKarts(List<String> karts) {
-		this.karts = karts;
+		Configuration.karts = karts;
 	}
 	
 	public List<Group> getGroups() {
@@ -30,7 +39,7 @@ public class Configuration {
 	}
 
 	public void setGroups(List<Group> groups) {
-		this.groups = groups;
+		Configuration.groups = groups;
 	}
 
 	public int getStints() {
@@ -38,7 +47,7 @@ public class Configuration {
 	}
 
 	public void setStints(int stints) {
-		this.stints = stints;
+		Configuration.stints = stints;
 	}
 	
 	public boolean addKart(String kartName) {

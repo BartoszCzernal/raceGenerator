@@ -1,9 +1,13 @@
 package com.kart.RaceGenerator.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Driver {
 
 	private String name;
 	private Group group;
+	private List<String> kartsUsed = new ArrayList<>();
 	
 	public Driver() {}
 	
@@ -30,6 +34,23 @@ public class Driver {
 
 	public void setGroup(Group group) {
 		this.group = group;
+	}
+
+	
+	public List<String> getKartsUsed() {
+		return kartsUsed;
+	}
+
+	public void setKartsUsed(List<String> kartsUsed) {
+		this.kartsUsed = kartsUsed;
+	}
+
+	public boolean addKartUsed(String kartName) {
+		if (kartsUsed.contains(kartName)) {
+			return false;
+		} else {
+			return kartsUsed.add(kartName);
+		}
 	}
 
 }

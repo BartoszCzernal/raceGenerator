@@ -11,19 +11,23 @@ public class RaceServiceImpl implements RaceService {
 
 	@Override
 	public Configuration prepareForForm(Configuration configuration) {
+
 		Group group = new Group("Grupa A");
 		for (int i = 1; i <= 6; i++) {
-			configuration.addKart(i + "");
 			group.addDriver(new Driver());
+			configuration.addKart(i + "");
 		}
 		configuration.addGroup(group);
+
 		return configuration;
 	}
 
 	@Override
 	public Configuration addNextGroup(Configuration configuration) {
 		char groupNameChar = 'A';
-		groupNameChar = (char) (groupNameChar + configuration.getGroups().size());
+		if (configuration.getGroups() != null) {
+			groupNameChar = (char) (groupNameChar + configuration.getGroups().size());
+		}
 		String groupName = "Grupa " + groupNameChar;
 		Group group = new Group(groupName);
 		for (int i = 1; i <= 6; i++) {
@@ -32,7 +36,5 @@ public class RaceServiceImpl implements RaceService {
 		configuration.addGroup(group);
 		return configuration;
 	}
-	
-	
-	
+
 }
