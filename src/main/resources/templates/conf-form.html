@@ -4,6 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
 <title>Race Generator</title>
 </head>
 <body>
@@ -12,14 +16,15 @@
 
 		<h3>Race Generator</h3>
 		<hr>
-
-		<div>
-			<form action="#" th:action="@{/form}" th:object="${configuration}"
-				method="POST">
-				<table border="1">
+		<form action="#" th:action="@{/form}" th:object="${configuration}"
+			method="POST">
+			<table class="table table-bordered table-striped">
+				<thead class="thead-dark">
 					<tr>
 						<th>Nazwy kartów</th>
 					</tr>
+				</thead>
+				<tbody>
 					<tr th:each="kart, kartStat : *{karts}">
 						<td><input type="text"
 							th:field="*{karts[__${kartStat.index}__]}" placeholder="kart">
@@ -30,13 +35,18 @@
 							<button type="submit" name="addKart">Add kart</button>
 						</td>
 					</tr>
-				</table>
-				<th:block th:each="group, groupStat : *{groups}">
-					<table border="1">
+				</tbody>
+			</table>
+			<th:block th:each="group, groupStat : *{groups}">
+				<table class="table table-bordered table-striped">
+					<thead class="thead-dark">
 						<tr>
-							<th><input type="text"
-								th:field="*{groups[__${groupStat.index}__].name}" readonly="readonly"></th>
+							<th th:text="*{groups[__${groupStat.index}__].name}"><input type="hidden"
+								th:field="*{groups[__${groupStat.index}__].name}"
+								readonly="readonly"></th>
 						</tr>
+					</thead>
+					<tbody>
 						<tr
 							th:each="driver, driverStat : *{groups[__${groupStat.index}__].drivers}">
 							<td><input type="text"
@@ -45,20 +55,20 @@
 						</tr>
 						<tr>
 							<td>
-								<button type="submit" name="addDriver" th:value="${groupStat.index}">Add Driver</button>
+								<button type="submit" name="addDriver"
+									th:value="${groupStat.index}">Add Driver</button>
 							</td>
 						</tr>
-					</table>
-				</th:block>
-				<button type="submit" name="addGroup">Add Group</button>
-				<hr>
+					</tbody>
+				</table>
+			</th:block>
+			<button type="submit" name="addGroup">Add Group</button>
+			<hr>
 
-				<input type="text" th:field="*{stints}">
+			<input type="text" th:field="*{stints}">
 
-				<button type="submit">Generate</button>
-			</form>
-
-		</div>
+			<button type="submit">Generate</button>
+		</form>
 
 	</div>
 </body>
