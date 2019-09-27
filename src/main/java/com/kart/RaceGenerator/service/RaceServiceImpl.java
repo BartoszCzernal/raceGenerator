@@ -1,5 +1,10 @@
 package com.kart.RaceGenerator.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Service;
 
 import com.kart.RaceGenerator.model.Configuration;
@@ -18,6 +23,7 @@ public class RaceServiceImpl implements RaceService {
 			configuration.addKart(i + "");
 		}
 		configuration.addGroup(group);
+		configuration.setStints(1);
 
 		return configuration;
 	}
@@ -34,6 +40,46 @@ public class RaceServiceImpl implements RaceService {
 			group.addDriver(new Driver());
 		}
 		configuration.addGroup(group);
+		return configuration;
+	}
+
+	@Override
+	public @Valid Configuration trimEmpty(@Valid Configuration configuration) {
+		List<String> emptyKarts = new ArrayList<>();
+		for (String kart : configuration.getKarts()) {
+			if (kart == null || kart.trim().isEmpty()) {
+				emptyKarts.add(kart);
+			}
+		}
+		for (String kart : emptyKarts) {
+			configuration.removeKart(kart);
+		}
+		List<ArrayList<Driver>> emptyDrivers = new ArrayList<ArrayList<Driver>>();
+		List<Group> emptyGroups = new ArrayList<>();
+		for (Group group : configuration.getGroups()) {
+			int index = configuration.getGroups().indexOf(group);
+			emptyDrivers.add(index, new ArrayList<>());
+			for (Driver driver : group.getDrivers()) {
+				if (driver.getName() == null || driver.getName().trim().isEmpty()) {
+					emptyDrivers.get(index).add(driver);
+				}
+			}
+			if (emptyDrivers.get(index).size() == group.getDrivers().size()) {
+				emptyGroups.add(group);
+			}
+		}
+		
+		for (List<Driver> list : emptyDrivers) {
+			int index = emptyDrivers.indexOf(list);
+			for (Driver emptyDriver : list) {
+				configuration.getGroups().get(index).removeDriver(emptyDriver);
+			}
+		}
+		
+		for (Group group : emptyGroups) {
+			configuration.removeGroup(group);
+		}
+
 		return configuration;
 	}
 

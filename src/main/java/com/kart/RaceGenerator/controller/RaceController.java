@@ -1,9 +1,12 @@
 package com.kart.RaceGenerator.controller;
 
-import java.util.List;
+
+
+import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,11 +22,9 @@ import com.kart.RaceGenerator.service.RaceService;
 public class RaceController {
 
 	private RaceService raceService;
-	private Configuration configuration;
 	
 	public RaceController(RaceService raceService) {
 		this.raceService = raceService;
-		this.configuration = Configuration.getInstance();
 	}
 
 	@GetMapping("/")
@@ -34,6 +35,7 @@ public class RaceController {
 
 	@GetMapping("/form")
 	public String showForm(Model model) {
+		Configuration configuration = Configuration.getInstance();
 		if (configuration.getGroups() == null) {
 			configuration = raceService.prepareForForm(configuration);
 		}
@@ -68,24 +70,16 @@ public class RaceController {
 	}
 	
 	@PostMapping("/form")
-	public String save(@ModelAttribute Configuration configuration,
+	public String save(@Valid @ModelAttribute("configuration") Configuration configuration, BindingResult bindingResult,
 						Model model) {
-		List<Group> groups = configuration.getGroups();
-		for (Group group : groups) {
-			group.pickKartsForDrivers();
+		if (bindingResult.hasErrors()) {
+			return "conf-form";
 		}
-		System.out.println(configuration.getKarts());
-		for (Group group : groups) {
-			List<Driver> drivers = group.getDrivers();
-			System.out.println(group.getName());
-			for (Driver driver : drivers) {
-				List<String> karts = driver.getKartsUsed();
-				System.out.print(driver.getName() + ": ");
-				for (String kart : karts) {
-					System.out.print(kart + ", ");
-				}
-				System.out.println();
-			}
+		configuration = raceService.trimEmpty(configuration);
+		//walidacja
+		//result.rejectValue
+		for (Group group : configuration.getGroups()) {
+			group.pickKartsForDrivers(configuration);
 		}
 		model.addAttribute(configuration);
 		return "result";

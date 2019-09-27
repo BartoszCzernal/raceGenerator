@@ -1,0 +1,7 @@
+.mytable {
+	width: 300px;
+}
+
+th, td {
+	text-align: center;
+}

@@ -3,15 +3,19 @@ package com.kart.RaceGenerator.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.Min;
+
+
 
 
 public class Configuration {
 	
 	private static volatile Configuration configuration;
 
-	private static List<String> karts;
-	private static List<Group> groups;
-	private static int stints;
+	private List<String> karts;
+	private List<Group> groups;
+	@Min(1)
+	private int stints;
 	
 	private Configuration() {}
 
@@ -31,7 +35,7 @@ public class Configuration {
 	}
 
 	public void setKarts(List<String> karts) {
-		Configuration.karts = karts;
+		this.karts = karts;
 	}
 	
 	public List<Group> getGroups() {
@@ -39,7 +43,7 @@ public class Configuration {
 	}
 
 	public void setGroups(List<Group> groups) {
-		Configuration.groups = groups;
+		this.groups = groups;
 	}
 
 	public int getStints() {
@@ -47,7 +51,7 @@ public class Configuration {
 	}
 
 	public void setStints(int stints) {
-		Configuration.stints = stints;
+		this.stints = stints;
 	}
 	
 	public boolean addKart(String kartName) {
@@ -56,12 +60,20 @@ public class Configuration {
 		}
 		return karts.add(kartName);
 	}
+	
+	public boolean removeKart(String kartName) {
+		return karts.remove(kartName);
+	}
 
 	public boolean addGroup(Group group) {
 		if (groups == null) {
 			groups = new ArrayList<>();
 		}
 		return groups.add(group);
+	}
+	
+	public boolean removeGroup(Group group) {
+		return groups.remove(group);
 	}
 	
 }
