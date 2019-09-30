@@ -9,6 +9,7 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 	crossorigin="anonymous">
+	<link rel="stylesheet" th:href="@{/css/resultStyle.css}" />
 <title>Race Generator</title>
 </head>
 <body>
@@ -33,7 +34,8 @@
 				</tr>
 			</tbody>
 		</table>
-
+		<a th:href="@{/form}" id="showAgainButton" class="btn btn-outline-primary"> Spróbuj ponownie </a>
+		<a onClick="window.print();" id="printPageButton" class="btn btn-outline-primary">Drukuj</a>
 
 	</div>
 

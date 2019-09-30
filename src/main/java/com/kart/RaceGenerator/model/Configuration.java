@@ -9,26 +9,13 @@ import javax.validation.constraints.Min;
 
 
 public class Configuration {
-	
-	private static volatile Configuration configuration;
 
 	private List<String> karts;
 	private List<Group> groups;
 	@Min(1)
 	private int stints;
 	
-	private Configuration() {}
-
-	public static Configuration getInstance() {
-		if (configuration == null) {
-			synchronized (Configuration.class) {
-				if (configuration == null) {
-					configuration = new Configuration();
-				}
-			}
-		}
-		return configuration;
-	}
+	public Configuration() {}
 
 	public List<String> getKarts() {
 		return karts;

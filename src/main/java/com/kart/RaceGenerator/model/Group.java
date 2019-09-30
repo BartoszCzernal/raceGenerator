@@ -54,18 +54,18 @@ public class Group {
 		return drivers.remove(driver);
 	}
 
-	public void pickKartsForDrivers(Configuration configuration) {
+	public boolean pickKartsForDrivers(Configuration configuration) {
 		if (configuration.getKarts() == null || this.getDrivers() == null) {
-			return;
+			return false;
 		}
 		List<String> kartsNames = new ArrayList<>(configuration.getKarts());
 		if (kartsNames.isEmpty() || kartsNames.equals(null)) {
-			return;
+			return false;
 		}
 
 		while(true) {
 			if(pickKarts(configuration, kartsNames)) {
-				break;
+				return true;
 			}
 			kartsNames = new ArrayList<>(configuration.getKarts());
 		}

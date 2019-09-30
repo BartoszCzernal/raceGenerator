@@ -16,7 +16,8 @@ public class RaceServiceImpl implements RaceService {
 
 	@Override
 	public Configuration prepareForForm(Configuration configuration) {
-
+		configuration.setKarts(null);
+		configuration.setGroups(null);
 		Group group = new Group("Grupa A");
 		for (int i = 1; i <= 6; i++) {
 			group.addDriver(new Driver());
@@ -56,6 +57,9 @@ public class RaceServiceImpl implements RaceService {
 		}
 		List<ArrayList<Driver>> emptyDrivers = new ArrayList<ArrayList<Driver>>();
 		List<Group> emptyGroups = new ArrayList<>();
+		if (configuration.getGroups() == null) {
+			return configuration;
+		}
 		for (Group group : configuration.getGroups()) {
 			int index = configuration.getGroups().indexOf(group);
 			emptyDrivers.add(index, new ArrayList<>());

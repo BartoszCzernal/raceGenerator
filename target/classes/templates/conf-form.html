@@ -45,16 +45,16 @@
 					</tr>
 				</tbody>
 			</table>
+			<span th:if="${#fields.hasErrors('karts')}"
+							th:errors="*{karts}"></span>
 			<th:block th:each="group, groupStat : *{groups}">
 				<table class="table table-bordered table-striped mytable d-inline">
 					<thead class="thead-dark">
 						<tr>
-							<th>
-							<input
-								type="text" th:field="*{groups[__${groupStat.index}__].name}">
-								</th>
+							<th><input type="text"
+								th:field="*{groups[__${groupStat.index}__].name}"></th>
 						</tr>
-						
+
 					</thead>
 					<tbody>
 						<tr
@@ -74,6 +74,8 @@
 					</tbody>
 				</table>
 			</th:block>
+			<span th:if="${#fields.hasErrors('groups')}"
+								th:errors="*{groups}"></span>
 			<button type="submit" name="addGroup" class="btn btn-outline-dark">
 				<i class="fa fas fa-plus"></i> Dodaj grupę
 			</button>

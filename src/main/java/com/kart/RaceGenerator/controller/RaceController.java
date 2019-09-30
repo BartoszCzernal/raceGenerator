@@ -30,12 +30,12 @@ public class RaceController {
 	@GetMapping("/")
 	public String start() {
 
-		return "index";
+		return "redirect:/form";
 	}
-
+	
 	@GetMapping("/form")
 	public String showForm(Model model) {
-		Configuration configuration = Configuration.getInstance();
+		Configuration configuration = new Configuration();
 		if (configuration.getGroups() == null) {
 			configuration = raceService.prepareForForm(configuration);
 		}
@@ -74,18 +74,41 @@ public class RaceController {
 						Model model) {
 		if (bindingResult.hasErrors()) {
 			return "conf-form";
-		}
+		} 
 		configuration = raceService.trimEmpty(configuration);
-		//walidacja
-		//result.rejectValue
+		if (configuration.getKarts() == null || configuration.getKarts().isEmpty()) {
+			bindingResult.rejectValue("karts", "error.karts", "Brak kartów!");
+			return "conf-form";
+		}
+		if (configuration.getGroups() == null || configuration.getGroups().isEmpty()) {
+			bindingResult.rejectValue("groups", "error.groups", "Brak grup!");
+			return "conf-form";
+		}
 		for (Group group : configuration.getGroups()) {
-			group.pickKartsForDrivers(configuration);
+			if (group.getDrivers() == null || group.getDrivers().isEmpty()) {
+				bindingResult.rejectValue("groups", "error.groups", "Brak kierowców!");
+				return "conf-form";
+			} else if (group.getDrivers().size() > configuration.getKarts().size()) {
+				bindingResult.rejectValue("groups", "error.groups", 
+						"Liczba kierowców w grupie jest większa od liczby gokartów!");
+				return "conf-form";
+			}
+			if (group.getDrivers().size() < configuration.getStints()) {
+				bindingResult.rejectValue("stints", "error.stints",
+						"Liczba stintów jest za duża w porównaniu do liczby zawodników w grupie");
+				return "conf-form";
+			}
+		}
+		
+		for (Group groupPick : configuration.getGroups()) {
+			groupPick.pickKartsForDrivers(configuration);
 		}
 		model.addAttribute(configuration);
 		return "result";
 	}
-
 }
+
+
 
 
 
