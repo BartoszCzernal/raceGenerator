@@ -51,6 +51,10 @@ public class Configuration {
 	public boolean removeKart(String kartName) {
 		return karts.remove(kartName);
 	}
+	
+	public void removeKart(int id) {
+		karts.remove(id);
+	}
 
 	public boolean addGroup(Group group) {
 		if (groups == null) {
@@ -61,6 +65,10 @@ public class Configuration {
 	
 	public boolean removeGroup(Group group) {
 		return groups.remove(group);
+	}
+	
+	public void removeGroup(int id) {
+		groups.remove(id);
 	}
 	
 }

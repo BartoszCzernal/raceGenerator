@@ -2,7 +2,11 @@
 	width: 300px;
 }
 
-th, td {
+.table th, .table td {
 	text-align: center;
+	vertical-align: middle;
 }
 
+#thKart {
+	height: 64px;
+}

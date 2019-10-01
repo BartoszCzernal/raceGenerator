@@ -27,13 +27,19 @@
 			<table class="table table-bordered table-striped mytable d-inline">
 				<thead class="thead-dark">
 					<tr>
-						<th>Nazwy kartów</th>
+						<th id="thKart" colspan="2">Nazwy kartów</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="kart, kartStat : *{karts}">
 						<td><input type="text"
 							th:field="*{karts[__${kartStat.index}__]}" placeholder="kart">
+						</td>
+						<td>
+							<button type="submit" name="deleteKart"
+								th:value="${kartStat.index}" class="btn btn-outline-dark">
+								<i class="fa fas fa-trash"></i>
+							</button>
 						</td>
 					<tr>
 					<tr>
@@ -45,14 +51,19 @@
 					</tr>
 				</tbody>
 			</table>
-			<span th:if="${#fields.hasErrors('karts')}"
-							th:errors="*{karts}"></span>
+			<span th:if="${#fields.hasErrors('karts')}" th:errors="*{karts}"></span>
 			<th:block th:each="group, groupStat : *{groups}">
 				<table class="table table-bordered table-striped mytable d-inline">
 					<thead class="thead-dark">
 						<tr>
 							<th><input type="text"
 								th:field="*{groups[__${groupStat.index}__].name}"></th>
+							<th>
+								<button type="submit" name="deleteGroup"
+									th:value="${groupStat.index}" class="btn btn-dark">
+									<i class="fa fas fa-trash"></i>
+								</button>
+							</th>
 						</tr>
 
 					</thead>
@@ -60,7 +71,14 @@
 						<tr
 							th:each="driver, driverStat : *{groups[__${groupStat.index}__].drivers}">
 							<td><input type="text"
-								th:field="*{groups[__${groupStat.index}__].drivers[__${driverStat.index}__].name}">
+								th:field="*{groups[__${groupStat.index}__].drivers[__${driverStat.index}__].name}"
+								placeholder="kierowca"></td>
+							<td>
+								<button type="submit"
+									th:formaction="@{/form/delete(groupId=${groupStat.index}, driverId=${driverStat.index})}"
+									class="btn btn-outline-dark">
+									<i class="fa fas fa-trash"></i>
+								</button>
 							</td>
 						</tr>
 						<tr>
@@ -74,8 +92,7 @@
 					</tbody>
 				</table>
 			</th:block>
-			<span th:if="${#fields.hasErrors('groups')}"
-								th:errors="*{groups}"></span>
+			<span th:if="${#fields.hasErrors('groups')}" th:errors="*{groups}"></span>
 			<button type="submit" name="addGroup" class="btn btn-outline-dark">
 				<i class="fa fas fa-plus"></i> Dodaj grupę
 			</button>

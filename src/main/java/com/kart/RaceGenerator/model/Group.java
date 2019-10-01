@@ -53,6 +53,10 @@ public class Group {
 	public boolean removeDriver(Driver driver) {
 		return drivers.remove(driver);
 	}
+	
+	public void removeDriver(int id) {
+		drivers.remove(id);
+	}
 
 	public boolean pickKartsForDrivers(Configuration configuration) {
 		if (configuration.getKarts() == null || this.getDrivers() == null) {

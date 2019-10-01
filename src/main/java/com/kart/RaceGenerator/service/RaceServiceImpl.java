@@ -19,9 +19,9 @@ public class RaceServiceImpl implements RaceService {
 		configuration.setKarts(null);
 		configuration.setGroups(null);
 		Group group = new Group("Grupa A");
-		for (int i = 1; i <= 6; i++) {
+		for (int i = 1; i <= 2; i++) {
 			group.addDriver(new Driver());
-			configuration.addKart(i + "");
+			configuration.addKart("");
 		}
 		configuration.addGroup(group);
 		configuration.setStints(1);
@@ -37,7 +37,7 @@ public class RaceServiceImpl implements RaceService {
 		}
 		String groupName = "Grupa " + groupNameChar;
 		Group group = new Group(groupName);
-		for (int i = 1; i <= 6; i++) {
+		for (int i = 1; i <= 2; i++) {
 			group.addDriver(new Driver());
 		}
 		configuration.addGroup(group);
@@ -46,14 +46,8 @@ public class RaceServiceImpl implements RaceService {
 
 	@Override
 	public @Valid Configuration trimEmpty(@Valid Configuration configuration) {
-		List<String> emptyKarts = new ArrayList<>();
-		for (String kart : configuration.getKarts()) {
-			if (kart == null || kart.trim().isEmpty()) {
-				emptyKarts.add(kart);
-			}
-		}
-		for (String kart : emptyKarts) {
-			configuration.removeKart(kart);
+		if (configuration.getKarts() != null) {
+			trimKarts(configuration);
 		}
 		List<ArrayList<Driver>> emptyDrivers = new ArrayList<ArrayList<Driver>>();
 		List<Group> emptyGroups = new ArrayList<>();
@@ -61,6 +55,9 @@ public class RaceServiceImpl implements RaceService {
 			return configuration;
 		}
 		for (Group group : configuration.getGroups()) {
+			if (group.getDrivers() == null) {
+				continue;
+			}
 			int index = configuration.getGroups().indexOf(group);
 			emptyDrivers.add(index, new ArrayList<>());
 			for (Driver driver : group.getDrivers()) {
@@ -85,6 +82,19 @@ public class RaceServiceImpl implements RaceService {
 		}
 
 		return configuration;
+	}
+
+	private void trimKarts(Configuration configuration) {
+		List<String> emptyKarts = new ArrayList<>();
+		
+		for (String kart : configuration.getKarts()) {
+			if (kart == null || kart.trim().isEmpty()) {
+				emptyKarts.add(kart);
+			}
+		}
+		for (String kart : emptyKarts) {
+			configuration.removeKart(kart);
+		}
 	}
 
 }
