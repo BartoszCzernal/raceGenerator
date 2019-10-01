@@ -1,0 +1,12 @@
+.mytable {
+	width: 300px;
+}
+
+.table th, .table td {
+	text-align: center;
+	vertical-align: middle;
+}
+
+#thKart {
+	height: 64px;
+}

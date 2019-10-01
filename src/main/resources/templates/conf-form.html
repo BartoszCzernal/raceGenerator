@@ -8,6 +8,11 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 	crossorigin="anonymous">
+<link rel="stylesheet" th:href="@{/css/formStyle.css}" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+
 <title>Race Generator</title>
 </head>
 <body>
@@ -16,12 +21,13 @@
 
 		<h3>Race Generator</h3>
 		<hr>
+
 		<form action="#" th:action="@{/form}" th:object="${configuration}"
 			method="POST">
-			<table class="table table-bordered table-striped">
+			<table class="table table-bordered table-striped mytable d-inline">
 				<thead class="thead-dark">
 					<tr>
-						<th>Nazwy kartów</th>
+						<th id="thKart" colspan="2">Nazwy kartów</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -29,46 +35,75 @@
 						<td><input type="text"
 							th:field="*{karts[__${kartStat.index}__]}" placeholder="kart">
 						</td>
+						<td>
+							<button type="submit" name="deleteKart"
+								th:value="${kartStat.index}" class="btn btn-outline-dark">
+								<i class="fa fas fa-trash"></i>
+							</button>
+						</td>
 					<tr>
 					<tr>
 						<td>
-							<button type="submit" name="addKart">Add kart</button>
+							<button type="submit" name="addKart" class="btn btn-outline-dark">
+								<i class="fa fas fa-plus"></i>
+							</button>
 						</td>
 					</tr>
 				</tbody>
 			</table>
+			<span th:if="${#fields.hasErrors('karts')}" th:errors="*{karts}"></span>
 			<th:block th:each="group, groupStat : *{groups}">
-				<table class="table table-bordered table-striped">
+				<table class="table table-bordered table-striped mytable d-inline">
 					<thead class="thead-dark">
 						<tr>
-							<th th:text="*{groups[__${groupStat.index}__].name}"><input type="hidden"
-								th:field="*{groups[__${groupStat.index}__].name}"
-								readonly="readonly"></th>
+							<th><input type="text"
+								th:field="*{groups[__${groupStat.index}__].name}"></th>
+							<th>
+								<button type="submit" name="deleteGroup"
+									th:value="${groupStat.index}" class="btn btn-dark">
+									<i class="fa fas fa-trash"></i>
+								</button>
+							</th>
 						</tr>
+
 					</thead>
 					<tbody>
 						<tr
 							th:each="driver, driverStat : *{groups[__${groupStat.index}__].drivers}">
 							<td><input type="text"
-								th:field="*{groups[__${groupStat.index}__].drivers[__${driverStat.index}__].name}">
+								th:field="*{groups[__${groupStat.index}__].drivers[__${driverStat.index}__].name}"
+								placeholder="kierowca"></td>
+							<td>
+								<button type="submit"
+									th:formaction="@{/form/delete(groupId=${groupStat.index}, driverId=${driverStat.index})}"
+									class="btn btn-outline-dark">
+									<i class="fa fas fa-trash"></i>
+								</button>
 							</td>
 						</tr>
 						<tr>
 							<td>
 								<button type="submit" name="addDriver"
-									th:value="${groupStat.index}">Add Driver</button>
+									th:value="${groupStat.index}" class="btn btn-outline-dark">
+									<i class="fa fas fa-plus"></i>
+								</button>
 							</td>
 						</tr>
 					</tbody>
 				</table>
 			</th:block>
-			<button type="submit" name="addGroup">Add Group</button>
+			<span th:if="${#fields.hasErrors('groups')}" th:errors="*{groups}"></span>
+			<button type="submit" name="addGroup" class="btn btn-outline-dark">
+				<i class="fa fas fa-plus"></i> Dodaj grupę
+			</button>
 			<hr>
 
-			<input type="text" th:field="*{stints}">
+			<input type="text" th:field="*{stints}" placeholder="ilość stintów">
+			<span th:if="${#fields.hasErrors('stints')}" th:errors="*{stints}"></span>
 
-			<button type="submit">Generate</button>
+			<button type="submit">Losuj</button>
 		</form>
+
 
 	</div>
 </body>

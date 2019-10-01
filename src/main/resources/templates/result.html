@@ -5,6 +5,11 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+	<link rel="stylesheet" th:href="@{/css/resultStyle.css}" />
 <title>Race Generator</title>
 </head>
 <body>
@@ -12,20 +17,25 @@
 
 		<h3>Race Generator</h3>
 		<hr>
-		<table border="1" th:each="group, groupStat : ${configuration.groups}">
-			<tr>
-				<th th:text="${group.name}"></th>
-				<th th:each="i: ${#numbers.sequence(1, configuration.stints)}" 
-					th:text="${i}">
-				</th>
-			</tr>
-			<tr th:each="driver, driverStat : ${group.drivers}">
-				<td th:text="${driver.name}"></td>
-				<td th:each="kart, kartStat : ${driver.kartsUsed}"
-					th:text="${kart}"></td>
-			</tr>
+		<table class="table table-bordered table-striped"
+			th:each="group, groupStat : ${configuration.groups}">
+			<thead class="thead-dark">
+				<tr>
+					<th th:text="${group.name}"></th>
+					<th th:each="i: ${#numbers.sequence(1, configuration.stints)}"
+						th:text="${i}"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="driver, driverStat : ${group.drivers}">
+					<td th:text="${driver.name}"></td>
+					<td th:each="kart, kartStat : ${driver.kartsUsed}"
+						th:text="${kart}"></td>
+				</tr>
+			</tbody>
 		</table>
-
+		<a th:href="@{/form}" id="showAgainButton" class="btn btn-outline-primary"> Spróbuj ponownie </a>
+		<a onClick="window.print();" id="printPageButton" class="btn btn-outline-primary">Drukuj</a>
 
 	</div>
 

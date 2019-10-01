@@ -49,20 +49,27 @@ public class Group {
 		driver.setGroup(this);
 		return drivers.add(driver);
 	}
+	
+	public boolean removeDriver(Driver driver) {
+		return drivers.remove(driver);
+	}
+	
+	public void removeDriver(int id) {
+		drivers.remove(id);
+	}
 
-	public void pickKartsForDrivers() {
-		Configuration configuration = Configuration.getInstance();
+	public boolean pickKartsForDrivers(Configuration configuration) {
 		if (configuration.getKarts() == null || this.getDrivers() == null) {
-			return;
+			return false;
 		}
 		List<String> kartsNames = new ArrayList<>(configuration.getKarts());
 		if (kartsNames.isEmpty() || kartsNames.equals(null)) {
-			return;
+			return false;
 		}
 
 		while(true) {
 			if(pickKarts(configuration, kartsNames)) {
-				break;
+				return true;
 			}
 			kartsNames = new ArrayList<>(configuration.getKarts());
 		}
@@ -80,7 +87,6 @@ public class Group {
 				List<String> kartsLeft = new ArrayList<>(kartsNames);
 				kartsLeft.removeAll(driver.getKartsUsed());
 				if (kartsLeft.isEmpty()) {
-					System.out.println("Nie udalo sie");
 					return false;
 				}
 				kartId = random.nextInt(kartsLeft.size());
