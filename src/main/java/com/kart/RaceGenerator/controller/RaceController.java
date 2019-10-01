@@ -127,11 +127,11 @@ public class RaceController {
 						"Liczba kierowców w grupie jest większa od liczby gokartów!");
 				return "conf-form";
 			}
-			if (group.getDrivers().size() < configuration.getStints()) {
-				bindingResult.rejectValue("stints", "error.stints",
-						"Liczba stintów jest za duża w porównaniu do liczby zawodników w grupie");
-				return "conf-form";
-			}
+//			if (group.getDrivers().size() < configuration.getStints()) {
+//				bindingResult.rejectValue("stints", "error.stints",
+//						"Liczba stintów jest za duża w porównaniu do liczby zawodników w grupie");
+//				return "conf-form";
+//			}
 		}
 		
 		for (Group groupPick : configuration.getGroups()) {
