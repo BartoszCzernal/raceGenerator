@@ -5,4 +5,7 @@
   #showAgainButton {
   	display: none;
   }
+  #editButton {
+  	display: none;
+  }
 }
