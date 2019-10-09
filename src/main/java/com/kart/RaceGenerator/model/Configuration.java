@@ -3,6 +3,7 @@ package com.kart.RaceGenerator.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 
@@ -13,6 +14,7 @@ public class Configuration {
 	private List<String> karts;
 	private List<Group> groups;
 	@Min(1)
+	@Max(30)
 	private int stints;
 	
 	public Configuration() {}
