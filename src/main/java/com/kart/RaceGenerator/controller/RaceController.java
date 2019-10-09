@@ -143,10 +143,10 @@ public class RaceController {
 //				return "conf-form";
 //			}
 		}
-		if (configuration.getStints() > configuration.getKarts().size()) {
-			bindingResult.rejectValue("stints", "error.stints", "Liczba stintów jest za duża w porównaniu do liczby gokartów");
-			return "conf-form";
-		}
+//		if (configuration.getStints() > configuration.getKarts().size()) {
+//			bindingResult.rejectValue("stints", "error.stints", "Liczba stintów jest za duża w porównaniu do liczby gokartów");
+//			return "conf-form";
+//		}
 		
 		for (Group groupPick : configuration.getGroups()) {
 			groupPick.pickKartsForDrivers(configuration);
