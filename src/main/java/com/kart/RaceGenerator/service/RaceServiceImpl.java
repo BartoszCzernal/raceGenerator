@@ -33,6 +33,9 @@ public class RaceServiceImpl implements RaceService {
 	public Configuration addNextGroup(Configuration configuration) {
 		char groupNameChar = 'A';
 		if (configuration.getGroups() != null) {
+			if (configuration.getGroups().size() >= 30) {
+				return configuration;
+			}
 			groupNameChar = (char) (groupNameChar + configuration.getGroups().size());
 		}
 		String groupName = "Grupa " + groupNameChar;

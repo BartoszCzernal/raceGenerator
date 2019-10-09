@@ -38,10 +38,6 @@ public class Group {
 		this.drivers = drivers;
 	}
 
-	public List<Driver> getDriversAsList() {
-		return new ArrayList<Driver>(drivers);
-	}
-
 	public boolean addDriver(Driver driver) {
 		if (drivers == null) {
 			drivers = new ArrayList<>();
@@ -59,11 +55,12 @@ public class Group {
 	}
 
 	public boolean pickKartsForDrivers(Configuration configuration) {
-		if (configuration.getKarts() == null || this.getDrivers() == null) {
+		if (configuration.getKarts() == null || this.getDrivers() == null
+			|| this.getDrivers().isEmpty()) {
 			return false;
 		}
 		List<String> kartsNames = new ArrayList<>(configuration.getKarts());
-		if (kartsNames.isEmpty() || kartsNames.equals(null)) {
+		if (kartsNames.isEmpty()) {
 			return false;
 		}
 

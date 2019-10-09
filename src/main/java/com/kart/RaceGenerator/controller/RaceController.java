@@ -43,6 +43,12 @@ public class RaceController {
 		
 		return "conf-form";
 	}
+	@PostMapping("/raceForm")
+	public String editForm(@ModelAttribute("configuration") Configuration configuration,
+							RedirectAttributes redirectAttributes) {
+		redirectAttributes.addFlashAttribute("configuration", configuration);
+		return "redirect:/raceForm";
+	}
 	
 	@GetMapping("/raceForm")
 	public String showFormAgain(@ModelAttribute("configuration") Configuration configuration) {
@@ -62,7 +68,9 @@ public class RaceController {
 	@RequestMapping(value="/form", params= {"addKart"})
 	public String addKart(@Valid @ModelAttribute Configuration configuration, 
 						  RedirectAttributes redirectAttributes) {
-		configuration.addKart("");
+		if(configuration.getKarts().size() < 30) {
+			configuration.addKart("");
+		}
 		redirectAttributes.addFlashAttribute("configuration", configuration);
 		return "redirect:/raceForm";
 	}
@@ -97,7 +105,9 @@ public class RaceController {
 							@RequestParam("addDriver") int id,
 							RedirectAttributes redirectAttributes) {
 		if (configuration.getGroups() != null) {
-			configuration.getGroups().get(id).addDriver(new Driver());
+			if (configuration.getGroups().get(id).getDrivers().size() < 30) {
+				configuration.getGroups().get(id).addDriver(new Driver());
+			}
 		}
 		redirectAttributes.addFlashAttribute("configuration", configuration);
 		return "redirect:/raceForm";
@@ -126,12 +136,16 @@ public class RaceController {
 				bindingResult.rejectValue("groups", "error.groups", 
 						"Liczba kierowców w grupie jest większa od liczby gokartów!");
 				return "conf-form";
-			}
+			} // porownac ilosc stintow z iloscia gokartów, a nie iloscia zawodników
 //			if (group.getDrivers().size() < configuration.getStints()) {
 //				bindingResult.rejectValue("stints", "error.stints",
 //						"Liczba stintów jest za duża w porównaniu do liczby zawodników w grupie");
 //				return "conf-form";
 //			}
+		}
+		if (configuration.getStints() > configuration.getKarts().size()) {
+			bindingResult.rejectValue("stints", "error.stints", "Liczba stintów jest za duża w porównaniu do liczby gokartów");
+			return "conf-form";
 		}
 		
 		for (Group groupPick : configuration.getGroups()) {
