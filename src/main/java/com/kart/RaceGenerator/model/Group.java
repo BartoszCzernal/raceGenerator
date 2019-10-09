@@ -55,7 +55,8 @@ public class Group {
 	}
 
 	public boolean pickKartsForDrivers(Configuration configuration) {
-		if (configuration.getKarts() == null || this.getDrivers() == null) {
+		if (configuration.getKarts() == null || this.getDrivers() == null
+			|| this.getDrivers().isEmpty()) {
 			return false;
 		}
 		List<String> kartsNames = new ArrayList<>(configuration.getKarts());
