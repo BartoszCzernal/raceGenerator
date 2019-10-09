@@ -46,11 +46,7 @@ public class Driver {
 	}
 
 	public boolean addKartUsed(String kartName) {
-		if (kartsUsed.contains(kartName)) {
-			return false;
-		} else {
 			return kartsUsed.add(kartName);
-		}
 	}
 
 }
