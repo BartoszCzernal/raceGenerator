@@ -39,7 +39,7 @@ public class Group {
 	}
 
 	public boolean addDriver(Driver driver) {
-		if (drivers == null) {
+		if (drivers == null || drivers.isEmpty()) {
 			drivers = new ArrayList<>();
 		}
 		driver.setGroup(this);

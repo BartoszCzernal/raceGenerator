@@ -1,6 +1,8 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -11,27 +13,82 @@
 <link rel="stylesheet" th:href="@{/css/formStyle.css}" />
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
+
+<script>
+	$(function() {
+		var reloading = sessionStorage.getItem("reloading");
+		if (!reloading) {
+			$('input').each(function() {
+				if ($(this).val() == '') {
+					this.focus();
+					sessionStorage.clear();
+					return false;
+				}
+			});
+		} else {
+			var id = sessionStorage.getItem("id");
+			$('input').get(id).focus();
+			var index = parseInt(id, 10) + 1;
+			if ($('input').get(index) != null) {
+				$('input').get(index).focus();
+			}
+		}
+		
+		sessionStorage.clear();
+	});
+</script>
 
 <title>Race Generator</title>
 </head>
 <body>
 	<script th:inline="javascript">
+		/* 	$('body')
+					.on(
+							'keydown',
+							'input, select, textarea',
+							function(e) {
+								var self = $(this), form = self
+										.parents('form:eq(0)'), focusable, next;
+								if (e.keyCode == 13) {
+									focusable = form.find(
+											'input,a,select,button,textarea')
+											.filter(':visible');
+									next = focusable.eq(focusable.index(this) + 2);
+									if (next.length) {
+										next.focus();
+									} else {
+										form.submit();
+									}
+									return false;
+								}
+							}); */
 		$('body')
 				.on(
 						'keydown',
-						'input, select, textarea',
+						'input, button',
 						function(e) {
+
 							var self = $(this), form = self
-									.parents('form:eq(0)'), focusable, next;
+									.parents('table:eq(0)'), focusable, next;
 							if (e.keyCode == 13) {
-								focusable = form.find(
-										'input,a,select,button,textarea')
-										.filter(':visible');
-								next = focusable.eq(focusable.index(this) + 2);
+								focusable = form.find('input, button').filter(
+										':visible');
+								var index = focusable.index(this);
+								next = focusable.eq(index + 1);
 								if (next.length) {
+									sessionStorage.setItem("reloading", "true");
+									if (next.is("button")) {
+										next = focusable.eq(index + 2);
+										if (next.is("button")) {
+											var inputs = $('input');
+											next = focusable.eq(index);
+											var id = inputs.index(next);
+											sessionStorage.setItem("id", id);
+											next = focusable.eq(index + 2);
+											next.click();
+										}
+									}
 									next.focus();
 								} else {
 									form.submit();
@@ -68,8 +125,9 @@
 					<tr>
 					<tr>
 						<td>
-							<button type="submit" name="addKart" class="btn btn-outline-dark">
-								<i class="fa fas fa-plus"></i>
+							<button type="submit" name="addKart" class="btn btn-outline-dark"
+								id="add">
+								<i class="fa fas fa-plus submits"></i>
 							</button>
 						</td>
 					</tr>
