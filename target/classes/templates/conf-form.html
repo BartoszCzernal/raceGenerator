@@ -18,12 +18,22 @@
 <script>
 	$(function() {
 		var reloading = sessionStorage.getItem("reloading");
+		if (!reloading) {
 			$('input').each(function() {
 				if ($(this).val() == '') {
 					this.focus();
+					sessionStorage.clear();
 					return false;
 				}
 			});
+		} else {
+			var id = sessionStorage.getItem("id");
+			$('input').get(id).focus();
+			if ($('input').get(id + 1) != null) {
+				$('input').get(id + 1).focus();
+			}
+		}
+		
 		sessionStorage.clear();
 	});
 </script>
@@ -71,6 +81,10 @@
 										next = focusable.eq(index + 2);
 										if (next.is("button")) {
 											next.click();
+										} else {
+											var inputs = $('input');
+											var id = inputs.index(next);
+											sessionStorage.setItem("id", id);
 										}
 									}
 									next.focus();
