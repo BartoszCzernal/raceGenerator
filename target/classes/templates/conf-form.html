@@ -29,8 +29,9 @@
 		} else {
 			var id = sessionStorage.getItem("id");
 			$('input').get(id).focus();
-			if ($('input').get(id + 1) != null) {
-				$('input').get(id + 1).focus();
+			var index = parseInt(id, 10) + 1;
+			if ($('input').get(index) != null) {
+				$('input').get(index).focus();
 			}
 		}
 		
@@ -80,11 +81,12 @@
 									if (next.is("button")) {
 										next = focusable.eq(index + 2);
 										if (next.is("button")) {
-											next.click();
-										} else {
 											var inputs = $('input');
+											next = focusable.eq(index);
 											var id = inputs.index(next);
 											sessionStorage.setItem("id", id);
+											next = focusable.eq(index + 2);
+											next.click();
 										}
 									}
 									next.focus();
