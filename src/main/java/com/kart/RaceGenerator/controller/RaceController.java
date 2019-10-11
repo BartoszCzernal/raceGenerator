@@ -68,7 +68,7 @@ public class RaceController {
 	@RequestMapping(value="/form", params= {"addKart"})
 	public String addKart(@Valid @ModelAttribute Configuration configuration, 
 						  RedirectAttributes redirectAttributes) {
-		if(configuration.getKarts().size() < 30) {
+		if(configuration.getKarts() == null  || configuration.getKarts().size() < 30) {
 			configuration.addKart("");
 		}
 		redirectAttributes.addFlashAttribute("configuration", configuration);
