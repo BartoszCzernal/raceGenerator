@@ -1,5 +1,5 @@
-# Project Name
-> Here goes your awesome project description!
+# Race Generator
+> Application that allows you to generate random race configuration by drawing go-karts for drivers fairly. It was written for karting track in Świdnica.
 
 ## Table of contents
 * [General info](#general-info)
