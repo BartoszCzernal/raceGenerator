@@ -14,6 +14,8 @@ high probability that driver will pick go-kart that he already drove or even a s
 
 ## Screenshots
 ![Example screenshot](./img/screenshot.png)
+
+
 ![Example screenshot](./img/screenshot2.png)
 
 ## Technologies
