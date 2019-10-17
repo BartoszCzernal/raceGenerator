@@ -6,7 +6,6 @@
 * [Screenshots](#screenshots)
 * [Technologies](#technologies)
 * [Setup](#setup)
-* [Features](#features)
 * [Status](#status)
 
 ## General info
@@ -26,23 +25,10 @@ high probability that driver will pick go-kart that he already drove or even a s
 * JQuery - version 3.4.1
 * Maven - version 4.0.0
 
-
 ## Setup
-Describe how to install / setup your local environement / add link to demo version.
-
-## Code Examples
-Show examples of usage:
-`put-your-code-here`
-
-## Features
-List of features ready and TODOs for future development
-* Awesome feature 1
-* Awesome feature 2
-* Awesome feature 3
-
-To-do list:
-* Wow improvement to be done 1
-* Wow improvement to be done 2
+1. Download RaceGenerator.jar
+2. Run it
+3. Go to your browser and type: http://localhost:8080
 
 ## Status
 Project is finished.
